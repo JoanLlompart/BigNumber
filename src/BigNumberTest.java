@@ -8,7 +8,7 @@ public class BigNumberTest {
     public void comparacions() {
         BigNumber b1, b2;
 
-        b1 = new BigNumber("2");
+        b1 = new BigNumber("002");
         b2 = new BigNumber("2");
         assertEquals(b1, b2);
         b1 = new BigNumber("4");
@@ -339,3 +339,8 @@ public class BigNumberTest {
 
 
 }
+/*
+        while (b.valor.length() > 1 && b.valor.charAt(0) == '0') {
+            b.valor = b.valor.substring(1);
+        }
+ */
