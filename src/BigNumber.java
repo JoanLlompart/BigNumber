@@ -3,26 +3,25 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("56");
-        BigNumber b2 = new BigNumber("000000000000000000000000000000056");
+        BigNumber b1 = new BigNumber("2");
+        BigNumber b2 = new BigNumber("02");
+        BigNumber resultat = b1.add(b2);
+
         System.out.println(b1.equals(b2));
         // b1 > b2 (1)
         // b1 == b2 (0)
         // b1 <b2 (- 1)
         System.out.println(b1.compareTo(b2));
+        System.out.println(resultat);
+
+
     }
 
     String valor;
 
     // Constructor 1
     public BigNumber(String s) {
-        /*
-        while (b.valor.length() > 1 && b.valor.charAt(0) == '0') {
-            b.valor = b.valor.substring(1);
-        }
- */
         for (int i = 0; i < s.length(); i++) {
-            // b.valor=b.valor.replaceFirst("^0+", "");
             char c = s.charAt(i);
             if (c != '0') {
                 s = s.substring(i);
@@ -35,11 +34,57 @@ class BigNumber {
     // Constructor 2
     public BigNumber(BigNumber b) {
 
+
     }
 
     // Suma
     BigNumber add(BigNumber other) {
-        return null;
+        /*
+        public class Main {
+  public static String sumar(String num1, String num2) {
+    StringBuilder result = new StringBuilder();
+    int i = num1.length() - 1;
+    int j = num2.length() - 1;
+    int carry = 0;
+
+    while (i >= 0 || j >= 0) {
+      int a = i >= 0 ? num1.charAt(i) - '0' : 0;
+      int b = j >= 0 ? num2.charAt(j) - '0' : 0;
+      int sum = a + b + carry;
+      result.append(sum % 10);
+      carry = sum / 10;
+      i--;
+      j--;
+    }
+
+    if (carry != 0) {
+      result.append(carry);
+    }
+
+    return result.reverse().toString();
+  }
+
+  public static void main(String[] args) {
+    String num1 = "12345678901234567890";
+    String num2 = "98765432109876543210";
+    String resultado = sumar(num1, num2);
+    System.out.println("Resultado: " + resultado);
+  }
+}
+         */
+        String b1 = this.valor;
+        String b2 = other.valor;
+        int residuo = 0;
+        int resultat =0;
+
+        for (int i = 0; i < b1.length(); i++) {
+            //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
+            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+            int suma = c1+c2+residuo;
+             resultat += suma;
+        }
+        return new BigNumber(String.valueOf(resultat));
     }
 
     // Resta
@@ -97,14 +142,15 @@ class BigNumber {
             return  -1;
         } else if (b1.length() == b2.length()) {
             for (int i = 0; i < b1.length(); i++) {
+                //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
                 int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
                 int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+
                 if (c1 > c2) {
                     return 1;
                 } else if (c1 < c2) {
                     return  -1;
                 }
-
             }
         }
         return 0;
