@@ -1,10 +1,11 @@
+import java.util.Arrays;
 import java.util.Objects;
 
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("2");
-        BigNumber b2 = new BigNumber("02");
+        BigNumber b1 = new BigNumber("52");
+        BigNumber b2 = new BigNumber("34");
         BigNumber resultat = b1.add(b2);
 
         System.out.println(b1.equals(b2));
@@ -75,16 +76,23 @@ class BigNumber {
         String b1 = this.valor;
         String b2 = other.valor;
         int residuo = 0;
-        int resultat =0;
+        int mesGran = Math.max(b1.length(), b2.length()) ;
+        int resultat[] = new int[mesGran];
+        String resultatFinal = "";
 
-        for (int i = 0; i < b1.length(); i++) {
+        for (int i = 0; i < mesGran; i++) {
             //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
             int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
             int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+
             int suma = c1+c2+residuo;
-             resultat += suma;
+            residuo = suma /10;
+            resultat[i] = suma %10;; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+            resultatFinal = resultatFinal + resultat[i] ;
         }
-        return new BigNumber(String.valueOf(resultat));
+        System.out.println(Arrays.toString(resultat));
+
+        return new BigNumber(resultatFinal);
     }
 
     // Resta
