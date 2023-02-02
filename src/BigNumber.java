@@ -4,15 +4,15 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("52");
+        BigNumber b1 = new BigNumber("12");
         BigNumber b2 = new BigNumber("34");
         BigNumber resultat = b1.add(b2);
 
-        System.out.println(b1.equals(b2));
+       // System.out.println(b1.equals(b2) +" equals");
         // b1 > b2 (1)
         // b1 == b2 (0)
         // b1 <b2 (- 1)
-        System.out.println(b1.compareTo(b2));
+        //System.out.println(b1.compareTo(b2));
         System.out.println(resultat);
 
 
@@ -40,59 +40,80 @@ class BigNumber {
 
     // Suma
     BigNumber add(BigNumber other) {
-        /*
-        public class Main {
-  public static String sumar(String num1, String num2) {
-    StringBuilder result = new StringBuilder();
-    int i = num1.length() - 1;
-    int j = num2.length() - 1;
-    int carry = 0;
 
-    while (i >= 0 || j >= 0) {
-      int a = i >= 0 ? num1.charAt(i) - '0' : 0;
-      int b = j >= 0 ? num2.charAt(j) - '0' : 0;
-      int sum = a + b + carry;
-      result.append(sum % 10);
-      carry = sum / 10;
-      i--;
-      j--;
-    }
-
-    if (carry != 0) {
-      result.append(carry);
-    }
-
-    return result.reverse().toString();
-  }
-
-  public static void main(String[] args) {
-    String num1 = "12345678901234567890";
-    String num2 = "98765432109876543210";
-    String resultado = sumar(num1, num2);
-    System.out.println("Resultado: " + resultado);
-  }
-}
-         */
         String b1 = this.valor;
         String b2 = other.valor;
+        String b1Invers=giraString(b1);
+        String b2Invers = giraString(b2);
         int residuo = 0;
         int mesGran = Math.max(b1.length(), b2.length()) ;
-        int resultat[] = new int[mesGran];
+        int resultat[] = new int[mesGran+1];
         String resultatFinal = "";
 
         for (int i = 0; i < mesGran; i++) {
+            //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
+            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
+
+            if (b1.length()==1 && b2.length()==1){
+                int suma = c1+c2+residuo;
+                residuo = suma /10;
+                resultat[i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                resultatFinal = resultatFinal +resultat[i] ;
+                return new BigNumber(resultatFinal);
+            }
+            int suma = c1+c2;
+            residuo = suma /10;
+
+            if (residuo==1) {
+                resultat[mesGran-i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                resultat[mesGran-i-1] = residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+               // resultatFinal = resultatFinal + resultat[i];
+
+            } else{
+                resultat[mesGran-i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                //resultatFinal = resultatFinal + resultat[i];
+            }
+
+
+
+            //resultatFinal =resultatFinal + resultat[i];
+
+        }
+        for (int i = 0; i < resultat.length; i++) {
+            resultatFinal =resultatFinal+ resultat[i];
+        }
+
+        System.out.println(resultatFinal+"Print de array" );
+
+
+
+       /*for (int i = 0; i < mesGran; i++) {
             //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
             int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
             int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
 
             int suma = c1+c2+residuo;
             residuo = suma /10;
-            resultat[i] = suma %10;; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-            resultatFinal = resultatFinal + resultat[i] ;
+            resultat[i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+            resultatFinal = resultatFinal +resultat[i] ;
         }
-        System.out.println(Arrays.toString(resultat));
+
+
+        */
+
+
+        //System.out.println(Arrays.toString(resultat));
 
         return new BigNumber(resultatFinal);
+    }
+
+    private String giraString(String s) {
+        String girat="";
+        for (int i = s.length()-1; i >=0 ; i--) {
+            girat +=s.charAt(i);
+        }
+        return girat;
     }
 
     // Resta
@@ -135,7 +156,7 @@ class BigNumber {
     }
 
     // Compara dos BigNumber. Torna 0 si són iguals, -1
-// si el primer és menor i torna 1 si el segon és menor
+    // si el primer és menor i torna 1 si el segon és menor
     public int compareTo(BigNumber other) {
 
         String b1 = this.valor;
