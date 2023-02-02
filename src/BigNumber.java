@@ -4,8 +4,8 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("12");
-        BigNumber b2 = new BigNumber("34");
+        BigNumber b1 = new BigNumber("123");
+        BigNumber b2 = new BigNumber("999");
         BigNumber resultat = b1.add(b2);
 
        // System.out.println(b1.equals(b2) +" equals");
@@ -46,7 +46,8 @@ class BigNumber {
         String b1Invers=giraString(b1);
         String b2Invers = giraString(b2);
         int residuo = 0;
-        int mesGran = Math.max(b1.length(), b2.length()) ;
+        int mesGran = Math.max(b1.length(), b2.length());
+
         int resultat[] = new int[mesGran+1];
         String resultatFinal = "";
 
@@ -62,7 +63,7 @@ class BigNumber {
                 resultatFinal = resultatFinal +resultat[i] ;
                 return new BigNumber(resultatFinal);
             }
-            int suma = c1+c2;
+            int suma = c1+c2+residuo;
             residuo = suma /10;
 
             if (residuo==1) {
