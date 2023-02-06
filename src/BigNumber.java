@@ -140,7 +140,7 @@ return null;
             }
 
 
-            if (b1.length()==1 && b2.length()==1){
+            if (bLongMajor==1){
                 int suma = c1+c2+residuo;
                 residuo = suma /10;
 
