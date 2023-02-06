@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.IllegalFormatCodePointException;
 import java.util.Objects;
 
 class BigNumber {
@@ -125,32 +126,42 @@ return null;
         String b1Invers=giraString(b1);
         String b2Invers = giraString(b2);
         for (int i = 0; i < bLongMajor; i++) {
-            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
-            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
 
             int multiplicacio = c1*c2;
-            resultat[i] = multiplicacio %10;
-            residuo = multiplicacio /10;
+            if (bLongMajor==1){
+
+                res= res + multiplicacio;
+                return new BigNumber(res);
+            } else {
+                resultat[i] = multiplicacio %10;
+                residuo = multiplicacio /10;
+            }
+
 
             if (b1.length()==1 && b2.length()==1){
                 int suma = c1+c2+residuo;
                 residuo = suma /10;
-                resultat[i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+
+                if (residuo==1) {
+                    resultat[i] = suma % 10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                }
                 res = res +resultat[i] ;
                 return new BigNumber(res);
             }
 
         }
-        System.out.println("Numero major :"+res);
+        System.out.println("Numero major :"+numMesGran(b1,b2));
 
         return new BigNumber(res);
 
     }
 
     private String numMesGran(String b1, String b2) {
-        if (b1.length()<b2.length()) { //
+        if (b1.length()<b2.length()) { // retorna qui es el numero amb la longitut mes gran
             return b2;
-        } else {
+        } else { //b1 es mes gran
             return b1;
         }
 
