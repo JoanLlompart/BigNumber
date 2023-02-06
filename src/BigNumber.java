@@ -4,9 +4,9 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("78");
-        BigNumber b2 = new BigNumber("788");
-        BigNumber resultat = b1.add(b2);
+        BigNumber b1 = new BigNumber("02");
+        BigNumber b2 = new BigNumber("2");
+        BigNumber resultat = b1.mult(b2);
 
        // System.out.println(b1.equals(b2) +" equals");
         // b1 > b2 (1)
@@ -116,16 +116,43 @@ return null;
     BigNumber mult(BigNumber other) {
         String b1 = this.valor;
         String b2 = other.valor;
-        int bLongMajor = Math.max(b1.length(), b2.length());
-        String res = null;
-        for (int i = bLongMajor; i <bLongMajor-1 ; i--) {
+        int bLongMajor = Math.max(b1.length(), b2.length()); //logitud de el numero mes gran
+        int residuo = 0;
+        String numeroMajor= numMesGran(b1,b2);
+        int resultat[] = new int[bLongMajor+1];
+        String res = "";
 
+        String b1Invers=giraString(b1);
+        String b2Invers = giraString(b2);
+        for (int i = 0; i < bLongMajor; i++) {
+            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
 
+            int multiplicacio = c1*c2;
+            resultat[i] = multiplicacio %10;
+            residuo = multiplicacio /10;
+
+            if (b1.length()==1 && b2.length()==1){
+                int suma = c1+c2+residuo;
+                residuo = suma /10;
+                resultat[i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                res = res +resultat[i] ;
+                return new BigNumber(res);
+            }
 
         }
-
+        System.out.println("Numero major :"+res);
 
         return new BigNumber(res);
+
+    }
+
+    private String numMesGran(String b1, String b2) {
+        if (b1.length()<b2.length()) { //
+            return b2;
+        } else {
+            return b1;
+        }
 
     }
 
