@@ -4,8 +4,8 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("123");
-        BigNumber b2 = new BigNumber("999");
+        BigNumber b1 = new BigNumber("78");
+        BigNumber b2 = new BigNumber("788");
         BigNumber resultat = b1.add(b2);
 
        // System.out.println(b1.equals(b2) +" equals");
@@ -35,21 +35,25 @@ class BigNumber {
     // Constructor 2
     public BigNumber(BigNumber b) {
 
-
     }
-
     // Suma
     BigNumber add(BigNumber other) {
 
         String b1 = this.valor;
         String b2 = other.valor;
-        String b1Invers=giraString(b1);
-        String b2Invers = giraString(b2);
+
         int residuo = 0;
         int mesGran = Math.max(b1.length(), b2.length());
-
         int resultat[] = new int[mesGran+1];
         String resultatFinal = "";
+
+        while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
+            String[] aux = igualarCero(b1,b2);
+            b1 =aux[0];
+            b2= aux[1];
+        }
+        String b1Invers=giraString(b1);
+        String b2Invers = giraString(b2);
 
         for (int i = 0; i < mesGran; i++) {
             //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
@@ -69,17 +73,10 @@ class BigNumber {
             if (residuo==1) {
                 resultat[mesGran-i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
                 resultat[mesGran-i-1] = residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-               // resultatFinal = resultatFinal + resultat[i];
-
             } else{
                 resultat[mesGran-i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-                //resultatFinal = resultatFinal + resultat[i];
+
             }
-
-
-
-            //resultatFinal =resultatFinal + resultat[i];
-
         }
         for (int i = 0; i < resultat.length; i++) {
             resultatFinal =resultatFinal+ resultat[i];
@@ -109,6 +106,17 @@ class BigNumber {
         return new BigNumber(resultatFinal);
     }
 
+    private String[] igualarCero(String b1, String b2) {
+        if (b1.length() > b2.length()) {
+            b2 = 0 + b2;
+        } else {
+            while (b1.length() != b2.length()) {
+                b1 = 0 + b1;
+            }
+        }
+        return new String[]{b1,b2};
+    }
+
     private String giraString(String s) {
         String girat="";
         for (int i = s.length()-1; i >=0 ; i--) {
@@ -119,11 +127,20 @@ class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
-        return null;
+return null;
     }
 
     // Multiplica
     BigNumber mult(BigNumber other) {
+        String b1 = this.valor;
+        String b2 = other.valor;
+        int bLongMajor = Math.max(b1.length(), b2.length());
+
+        for (int i = bLongMajor; i <bLongMajor-1 ; i--) {
+
+        }
+
+
         return null;
 
     }
