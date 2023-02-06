@@ -41,7 +41,7 @@ class BigNumber {
 
         String b1 = this.valor;
         String b2 = other.valor;
-
+        //Antes error per no afegir ceros al numero que es gira.
         int residuo = 0;
         int mesGran = Math.max(b1.length(), b2.length());
         int resultat[] = new int[mesGran+1];
@@ -52,6 +52,7 @@ class BigNumber {
             b1 =aux[0];
             b2= aux[1];
         }
+        //una vegada afegim els ceros per igualar invertim el numero.
         String b1Invers=giraString(b1);
         String b2Invers = giraString(b2);
 
@@ -83,25 +84,6 @@ class BigNumber {
         }
 
         System.out.println(resultatFinal+"Print de array" );
-
-
-
-       /*for (int i = 0; i < mesGran; i++) {
-            //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
-            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
-            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
-
-            int suma = c1+c2+residuo;
-            residuo = suma /10;
-            resultat[i] = suma %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-            resultatFinal = resultatFinal +resultat[i] ;
-        }
-
-
-        */
-
-
-        //System.out.println(Arrays.toString(resultat));
 
         return new BigNumber(resultatFinal);
     }
@@ -135,13 +117,15 @@ return null;
         String b1 = this.valor;
         String b2 = other.valor;
         int bLongMajor = Math.max(b1.length(), b2.length());
-
+        String res = null;
         for (int i = bLongMajor; i <bLongMajor-1 ; i--) {
+
+
 
         }
 
 
-        return null;
+        return new BigNumber(res);
 
     }
 
