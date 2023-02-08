@@ -5,8 +5,8 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("12");
-        BigNumber b2 = new BigNumber("2");
+        BigNumber b1 = new BigNumber("154");
+        BigNumber b2 = new BigNumber("43");
         BigNumber resultat = b1.mult(b2);
 
        // System.out.println(b1.equals(b2) +" equals");
@@ -172,6 +172,7 @@ class BigNumber {
         String numeroMajor= numMesGran(b1,b2);
         String numeroMenor= numMenor(b1,b2);
         int resultat[] = new int[bLongMajor+1];
+        int[][] resTemp = new int[bLongMenor+1][resultat.length]; //primer cuadrat la cantitat de files, el segon els nombres de cada dimensio
         String res = "";
 
 
@@ -221,9 +222,21 @@ class BigNumber {
                     int multiplicacio = c1 * c2;
                     int tempMult = multiplicacio % 10;
 
-                    resultat[bLongMajor - j] = tempMult + residuo;
+                    resTemp[i][bLongMajor - j-i] = (tempMult + residuo);
+                    //resultat[bLongMajor - j-i] = tempMult + residuo;
+                    //resTemp[i][j]= resultat[i];
                     residuo = multiplicacio / 10;
                 }
+
+            }
+
+            for (int i = 0; i < resTemp.length; i++) {
+                for (int j = 0; j < resTemp[i].length; j++) {
+                   // resultat[j] = resTemp[i][j] + resTemp[i][j];
+                    resultat[j] = resTemp[i][j];
+
+                }
+
             }
         }
 
@@ -236,7 +249,6 @@ class BigNumber {
             }
             res=res+resultat[i]; //se colocaran els nombres per ordre comensant per el darrer fins el primer,
             //tambe el pasam a String a la hora de sumar res a res mes el array de int
-
 
         }
 
