@@ -5,7 +5,7 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("02");
+        BigNumber b1 = new BigNumber("12");
         BigNumber b2 = new BigNumber("2");
         BigNumber resultat = b1.mult(b2);
 
@@ -14,7 +14,7 @@ class BigNumber {
         // b1 == b2 (0)
         // b1 <b2 (- 1)
         //System.out.println(b1.compareTo(b2));
-        System.out.println(resultat);
+        System.out.println("Resultat "+resultat);
 
 
     }
@@ -48,7 +48,7 @@ class BigNumber {
         int resultat[] = new int[mesGran+1];
         String resultatFinal = "";
 
-        while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
+        while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al de menor longitud
             String[] aux = igualarCero(b1,b2);
             b1 =aux[0];
             b2= aux[1];
@@ -110,52 +110,167 @@ class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
-return null;
+        String b1 = this.valor;
+        String b2 = other.valor;
+        //Antes error per no afegir ceros al numero que es gira.
+        int residuo = 0;
+        int mesGran = Math.max(b1.length(), b2.length());
+        int resultat[] = new int[mesGran+1];
+        String resultatFinal = "";
+
+        while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
+            String[] aux = igualarCero(b1,b2);
+            b1 =aux[0];
+            b2= aux[1];
+        }
+        //una vegada afegim els ceros per igualar invertim el numero.
+        String b1Invers=giraString(b1);
+        String b2Invers = giraString(b2);
+
+        for (int i = 0; i < mesGran; i++) {
+            //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
+            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
+
+            if (b1.length()==1 && b2.length()==1){
+                int resta = c1-c2;
+                residuo = resta /10;
+
+                resultat[i] = (resta %10) - residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                resultatFinal = resultatFinal + resultat[i] ;
+                return new BigNumber(resultatFinal);
+            }
+            int resta = c1-c2-residuo;
+            residuo = resta /10;
+
+            if (residuo==1) {
+                resultat[mesGran-i] = resta %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+                resultat[mesGran-i-1] = residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+            } else{
+                resultat[mesGran-i] = resta %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
+
+            }
+        }
+        for (int i = 0; i < resultat.length; i++) {
+            resultatFinal =resultatFinal+ resultat[i];
+        }
+
+        System.out.println(resultatFinal+"Print de array" );
+
+        return new BigNumber(resultatFinal);
     }
 
     // Multiplica
     BigNumber mult(BigNumber other) {
+
         String b1 = this.valor;
         String b2 = other.valor;
         int bLongMajor = Math.max(b1.length(), b2.length()); //logitud de el numero mes gran
+        int bLongMenor = Math.min(b1.length(), b2.length()); //logitud de el numero mes gran
+
         int residuo = 0;
         String numeroMajor= numMesGran(b1,b2);
+        String numeroMenor= numMenor(b1,b2);
         int resultat[] = new int[bLongMajor+1];
         String res = "";
 
-        String b1Invers=giraString(b1);
-        String b2Invers = giraString(b2);
-        for (int i = 0; i < bLongMajor; i++) {
-            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+
+        String b1Invers=giraString(b1); //b1 sempre sera el valor mes gran
+        String b2Invers = giraString(b2); // b2 sempre sera el valor mes petit
+
+       int diferencia = b1.compareTo(b2);
+
+      /* switch (diferencia) {
+           case -1:
+               System.out.println("b2 major que b1");
+           case 0:
+               System.out.println("iguals");
+           case 1:
+               System.out.println("b1 major que b2");
+       }
+
+       */
+
+        if (bLongMajor==1){
+            for (int i = 0; i < bLongMajor; i++) {
+                int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+                int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
+                int multiplicacio =c1*c2;
+                res =res+ multiplicacio;
+                return new BigNumber(res);
+            }
+
+        } else if (bLongMenor==1) { //si el numero menor es el unic que nomes te un digit pero el mes gran en te mes de un.
+            for (int i = 0; i < bLongMenor; i++) {
+                int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+                for (int j = 0; j < bLongMajor; j++) {
+                    int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
+                    int multiplicacio = c1*c2;
+                    resultat[bLongMajor-j] = multiplicacio %10;
+                }
+
+
+
+            }
+
+
+        }
+        for (int i = 0; i < resultat.length; i++) {
+            res=res+resultat[i];
+
+        }
+        /*for (int i = 0; i < numeroMajor.length(); i++) {
             int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
+            for (int j = 0; j < numeroMajor.length(); j++) {
+                int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
+                int multiplicacio = c1*c2;
+                residuo = multiplicacio /10;
+
+            }
+        }
+
+         */
+
+
+
+
+  /*      for (int i = 0; i < bLongMajor; i++) {
+            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
+            if (b2.length()< b1.length()){
+                while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
+                    String[] aux = igualarCero(b1,b2);
+                    b1 =aux[0];
+                    b2= aux[1];
+                }
+            }
+            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
 
             int multiplicacio = c1*c2;
-            if (bLongMajor==1){
-
+            if (bLongMajor==1) {
                 res= res + multiplicacio;
                 return new BigNumber(res);
             } else {
                 resultat[i] = multiplicacio %10;
                 residuo = multiplicacio /10;
             }
-
-
-            if (bLongMajor==1){
-                int suma = c1+c2+residuo;
-                residuo = suma /10;
-
-                if (residuo==1) {
-                    resultat[i] = suma % 10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-                }
-                res = res +resultat[i] ;
-                return new BigNumber(res);
-            }
-
         }
+
+   */
+
+
         System.out.println("Numero major :"+numMesGran(b1,b2));
 
         return new BigNumber(res);
 
+
+    }
+
+    private String numMenor(String b1, String b2) {
+        if (b1.length()<b2.length()) { // retorna qui es el numero amb la longitut mes petita
+            return b1;
+        } else { //b1 es mes petit
+            return b2;
+        }
     }
 
     private String numMesGran(String b1, String b2) {
@@ -164,24 +279,29 @@ return null;
         } else { //b1 es mes gran
             return b1;
         }
-
     }
 
     // Divideix
     BigNumber div(BigNumber other) {
-        return null;
+       return null;
+    }
+
+    public static int[] toIntArray(String number) {
+        int[] result = new int[number.length()];
+        for (int i = 0; i < number.length(); i++) {
+            result[i] = number.charAt(number.length() - 1 - i) - '0';
+        }
+        return result;
     }
 
     // Arrel quadrada
     BigNumber sqrt() {
         return null;
-
     }
 
     // Potència
     BigNumber power(int n) {
         return null;
-
     }
 
     // Factorial
@@ -192,7 +312,6 @@ return null;
     // MCD. Torna el Màxim comú divisor
     BigNumber mcd(BigNumber other) {
         return null;
-
     }
 
     // Compara dos BigNumber. Torna 0 si són iguals, -1
