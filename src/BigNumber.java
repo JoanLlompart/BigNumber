@@ -205,17 +205,29 @@ class BigNumber {
                 int c2 = Integer.parseInt(String.valueOf(b2.charAt(i))); //com nomes te longitut 1 no el invertim
                 for (int j = 0; j < bLongMajor; j++) {
                     int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
-                    int multiplicacio = c1*c2;
-                    int tempMult = multiplicacio %10; //Cream una variable temporal que nomes existira dins el aquest for al igual que multiplicacio,
-                                                        // agafa la segona unitat, per despres sumar el residu a la multiplicació.(b1*b2) + residu
-                    resultat[bLongMajor-j] = tempMult + residuo; //Afegeix els nombres començant per la darrera posicio de el array, (dreta a esquerra)
-                    residuo = multiplicacio /10; // agafa el residu de la multiplicacio.En el cas que en tengui
+                    int multiplicacio = c1 * c2;
+                    int tempMult = multiplicacio % 10; //Cream una variable temporal que nomes existira dins el aquest for al igual que multiplicacio,
+                    // agafa la segona unitat, per despres sumar el residu a la multiplicació.(b1*b2) + residu
+                    resultat[bLongMajor - j] = tempMult + residuo; //Afegeix els nombres començant per la darrera posicio de el array, (dreta a esquerra)
+                    residuo = multiplicacio / 10; // agafa el residu de la multiplicacio.En el cas que en tengui
                 }
 
             }
+        } else if (bLongMenor>1) { //si el nombre mes petit es de mes de dos digits.
+            for (int i = 0; i < bLongMenor; i++) {
+                int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i))); //com  te longitut mes de 1 el invertim
+                for (int j = 0; j < bLongMajor; j++) {
+                    int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
+                    int multiplicacio = c1 * c2;
+                    int tempMult = multiplicacio % 10;
 
-
+                    resultat[bLongMajor - j] = tempMult + residuo;
+                    residuo = multiplicacio / 10;
+                }
+            }
         }
+
+
         for (int i = 0; i < resultat.length; i++) {
             if (residuo>0) { //si hem acabat de multiplicar i tenim algun residu, se afegira el residu a la posicio 0 del resultat,
                             // es a dir com a primer numero.
