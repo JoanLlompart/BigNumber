@@ -191,34 +191,44 @@ class BigNumber {
 
        */
 
-        if (bLongMajor==1){
+        if (bLongMajor==1){ //Per els nombres que els dos tenguin longitut 1.
             for (int i = 0; i < bLongMajor; i++) {
                 int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
                 int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
-                int multiplicacio =c1*c2;
-                res =res+ multiplicacio;
+                int multiplicacio =c1*c2; //se multiplican simplement ja que no tendra residu.
+                res =res+ multiplicacio; // En aquest cas no feim us de el Array de int i el pasam directa a el String res.
                 return new BigNumber(res);
             }
 
         } else if (bLongMenor==1) { //si el numero menor es el unic que nomes te un digit pero el mes gran en te mes de un.
             for (int i = 0; i < bLongMenor; i++) {
-                int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+                int c2 = Integer.parseInt(String.valueOf(b2.charAt(i))); //com nomes te longitut 1 no el invertim
                 for (int j = 0; j < bLongMajor; j++) {
                     int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
                     int multiplicacio = c1*c2;
-                    resultat[bLongMajor-j] = multiplicacio %10;
+                    int tempMult = multiplicacio %10; //Cream una variable temporal que nomes existira dins el aquest for al igual que multiplicacio,
+                                                        // agafa la segona unitat, per despres sumar el residu a la multiplicació.(b1*b2) + residu
+                    resultat[bLongMajor-j] = tempMult + residuo; //Afegeix els nombres començant per la darrera posicio de el array, (dreta a esquerra)
+                    residuo = multiplicacio /10; // agafa el residu de la multiplicacio.En el cas que en tengui
                 }
-
-
 
             }
 
 
         }
         for (int i = 0; i < resultat.length; i++) {
-            res=res+resultat[i];
+            if (residuo>0) { //si hem acabat de multiplicar i tenim algun residu, se afegira el residu a la posicio 0 del resultat,
+                            // es a dir com a primer numero.
+                resultat[0] = residuo;
+
+            }
+            res=res+resultat[i]; //se colocaran els nombres per ordre comensant per el darrer fins el primer,
+            //tambe el pasam a String a la hora de sumar res a res mes el array de int
+
 
         }
+
+
         /*for (int i = 0; i < numeroMajor.length(); i++) {
             int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
             for (int j = 0; j < numeroMajor.length(); j++) {
