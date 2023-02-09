@@ -221,33 +221,20 @@ class BigNumber {
                     int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
                     int multiplicacio = c1 * c2;
                     int tempMult = multiplicacio % 10;
-
                     resTemp[i][bLongMajor - j-i] = (tempMult + residuo);
-                    //resultat[bLongMajor - j-i] = tempMult + residuo;
-                    //resTemp[i][j]= resultat[i];
                     residuo = multiplicacio / 10;
                 }
 
             }
             for (int j = resTemp[0].length - 1; j >= 0; j--) {
-                int sum = residuo;
+                int sum = residuo; //suma comensa amb el valor de el residu,suma se reinicia a cada volta de el primer bucle.
                 for (int i = 0; i < resTemp.length; i++) {
                     sum += resTemp[i][j];
                 }
-                residuo = sum / 10;
-                resultat[j] = sum % 10;
+                residuo = sum / 10; //guarda el residu per sumarli a la seguent fila
+                resultat[j] = sum % 10; //guarda el resultat de la suma de dreta a esquerra.
             }
 
-            /*for (int i = 0; i < resTemp.length; i++) {
-                for (int j = 0; j < resTemp[i].length; j++) {
-                   // resultat[j] = resTemp[i][j] + resTemp[i][j];
-                    resultat[j] = resTemp[i][j];
-
-                }
-
-            }
-
-             */
         }
 
 
@@ -261,51 +248,8 @@ class BigNumber {
             //tambe el pasam a String a la hora de sumar res a res mes el array de int
 
         }
-
-
-        /*for (int i = 0; i < numeroMajor.length(); i++) {
-            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
-            for (int j = 0; j < numeroMajor.length(); j++) {
-                int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
-                int multiplicacio = c1*c2;
-                residuo = multiplicacio /10;
-
-            }
-        }
-
-         */
-
-
-
-
-  /*      for (int i = 0; i < bLongMajor; i++) {
-            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
-            if (b2.length()< b1.length()){
-                while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
-                    String[] aux = igualarCero(b1,b2);
-                    b1 =aux[0];
-                    b2= aux[1];
-                }
-            }
-            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
-
-            int multiplicacio = c1*c2;
-            if (bLongMajor==1) {
-                res= res + multiplicacio;
-                return new BigNumber(res);
-            } else {
-                resultat[i] = multiplicacio %10;
-                residuo = multiplicacio /10;
-            }
-        }
-   */
-
-
         System.out.println("Numero major :"+numMesGran(b1,b2));
-
         return new BigNumber(res);
-
-
     }
 
     private String numMenor(String b1, String b2) {
