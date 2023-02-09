@@ -189,9 +189,9 @@ public class BigNumberTest {
         b2 = new BigNumber("10");
         assertEquals(new BigNumber("100"), b1.mult(b2));
 
-        b1 = new BigNumber("153233434212124");
-        b2 = new BigNumber("4133223");
-        assertEquals(new BigNumber("633347954654537795652"), b1.mult(b2));
+        b1 = new BigNumber("153233434212124"); //15
+        b2 = new BigNumber("4133223");//7
+        assertEquals(new BigNumber("633347954654537795652"), b1.mult(b2));//21
 
         b1 = new BigNumber("99999999999999999999999");
         b2 = new BigNumber("9999999999999999999999");

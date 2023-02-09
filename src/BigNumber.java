@@ -172,6 +172,7 @@ class BigNumber {
         String numeroMajor= numMesGran(b1,b2);
         String numeroMenor= numMenor(b1,b2);
         int resultat[] = new int[bLongMajor+1];
+        //int resultat[] = new int[bLongMajor+bLongMenor];
         int[][] resTemp = new int[bLongMenor+1][resultat.length]; //primer cuadrat la cantitat de files, el segon els nombres de cada dimensio
         String res = "";
 
@@ -180,17 +181,6 @@ class BigNumber {
         String b2Invers = giraString(b2); // b2 sempre sera el valor mes petit
 
        int diferencia = b1.compareTo(b2);
-
-      /* switch (diferencia) {
-           case -1:
-               System.out.println("b2 major que b1");
-           case 0:
-               System.out.println("iguals");
-           case 1:
-               System.out.println("b1 major que b2");
-       }
-
-       */
 
         if (bLongMajor==1){ //Per els nombres que els dos tenguin longitut 1.
             for (int i = 0; i < bLongMajor; i++) {
@@ -235,6 +225,7 @@ class BigNumber {
                 resultat[j] = sum % 10; //guarda el resultat de la suma de dreta a esquerra.
             }
 
+
         }
 
 
@@ -271,6 +262,19 @@ class BigNumber {
     // Divideix
     BigNumber div(BigNumber other) {
 //hem de tornar nomes el  cocient(resultat) i truncar en cocient per baix es a dir numeros enters i eliminant els decimals.
+
+        String b1 = this.valor;
+        String b2 = other.valor;
+        String dividendo= numMesGran(b1,b2);
+        String divisor= numMenor(b1,b2);
+
+        for (int i = 0; i < divisor.length(); i++) {
+            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
+            for (int j = 0; j < dividendo.length(); j++) {
+                int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
+
+            }
+        }
        return null;
     }
 
