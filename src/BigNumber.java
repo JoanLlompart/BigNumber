@@ -229,8 +229,16 @@ class BigNumber {
                 }
 
             }
+            for (int j = resTemp[0].length - 1; j >= 0; j--) {
+                int sum = residuo;
+                for (int i = 0; i < resTemp.length; i++) {
+                    sum += resTemp[i][j];
+                }
+                residuo = sum / 10;
+                resultat[j] = sum % 10;
+            }
 
-            for (int i = 0; i < resTemp.length; i++) {
+            /*for (int i = 0; i < resTemp.length; i++) {
                 for (int j = 0; j < resTemp[i].length; j++) {
                    // resultat[j] = resTemp[i][j] + resTemp[i][j];
                     resultat[j] = resTemp[i][j];
@@ -238,6 +246,8 @@ class BigNumber {
                 }
 
             }
+
+             */
         }
 
 
@@ -288,7 +298,6 @@ class BigNumber {
                 residuo = multiplicacio /10;
             }
         }
-
    */
 
 
@@ -317,6 +326,7 @@ class BigNumber {
 
     // Divideix
     BigNumber div(BigNumber other) {
+//hem de tornar nomes el  cocient(resultat) i truncar en cocient per baix es a dir numeros enters i eliminant els decimals.
        return null;
     }
 

@@ -222,6 +222,10 @@ public class BigNumberTest {
     public void divisions() {
         BigNumber b1, b2;
 
+        b1 = new BigNumber("513");
+        b2 = new BigNumber("5");
+        assertEquals(new BigNumber("102"), b1.div(b2));
+
         b1 = new BigNumber("45354645634563456345456345234545897894562634563456");
         b2 = new BigNumber("45634563456345634563456546799008905634563456456");
         assertEquals(new BigNumber("993"), b1.div(b2));
