@@ -5,8 +5,8 @@ import java.util.Objects;
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("154");
-        BigNumber b2 = new BigNumber("43");
+        BigNumber b1 = new BigNumber("99999999999999999999999");
+        BigNumber b2 = new BigNumber("9999999999999999999999");
         BigNumber resultat = b1.mult(b2);
 
        // System.out.println(b1.equals(b2) +" equals");
@@ -14,7 +14,7 @@ class BigNumber {
         // b1 == b2 (0)
         // b1 <b2 (- 1)
         //System.out.println(b1.compareTo(b2));
-        System.out.println("Resultat "+resultat);
+       System.out.println("Resultat "+resultat);
 
 
     }
@@ -85,7 +85,7 @@ class BigNumber {
             resultatFinal =resultatFinal+ resultat[i];
         }
 
-        System.out.println(resultatFinal+"Print de array" );
+        //System.out.println(resultatFinal+"Print de array" );
 
         return new BigNumber(resultatFinal);
     }
@@ -162,101 +162,66 @@ class BigNumber {
 
     // Multiplica
     BigNumber mult(BigNumber other) {
-
-        String b1 = this.valor;
-        String b2 = other.valor;
-        int bLongMajor = Math.max(b1.length(), b2.length()); //logitud de el numero mes gran
-        int bLongMenor = Math.min(b1.length(), b2.length()); //logitud de el numero mes gran
-
-        int residuo = 0;
-        String numeroMajor= numMesGran(b1,b2);
-        String numeroMenor= numMenor(b1,b2);
-        int resultat[] = new int[bLongMajor+1];
-        //int totalLlargaria =bLongMajor+bLongMenor;
-        //int resultat[] = new int[totalLlargaria];
-        int[][] resTemp = new int[bLongMenor+1][resultat.length]; //primer cuadrat la cantitat de files, el segon els nombres de cada dimensio
-        String[] sumes=new String[bLongMenor+1];
+//Creamos dos strings de los valores que tenemos
+        String mult1 = this.valor;
+        String mult2 = other.valor;
+        //Luego creos un int que sea la longitud de cada 1
+        int lenght_mult1 = mult1.length();
+        int lenght_mult2 = mult2.length();
+        //Creamos la variable llevo que solamente puede ser 1 o 0
+        int llevo = 0;
+        //Creamos esta variable donde guiardaremos el resultado
         String res = "";
+        BigNumber resFinal = new BigNumber("0");
+
+        //Tenemos esta variable que nos añade ceros a medida que augmenta los numeros
+        int nceros = 0;
+
+        //Cremos un for que recorra la longitud de mult2 de derecha a izquierda
+        for (int i = lenght_mult2-1; i >= 0; i--) {
+            char c = mult2.charAt(i);
+            res = "";
+            //Cremos un for que recorra la longitud de mult1 de derecha a izquierda
+            for (int j = lenght_mult1-1; j >= 0; j--) {
+                //Pasa de String a Int las variable creadas anteriormente
+                int c1 = Integer.parseInt(String.valueOf(mult1.charAt(j)));
+                int c2 = Integer.parseInt(String.valueOf(c));
+                //Creamos la variable mult donde realizaremos la operacion
+                int mult = c1 * c2 ;
+                 mult+= llevo;
 
 
-        String b1Invers=giraString(b1); //b1 sempre sera el valor mes gran
-        String b2Invers = giraString(b2); // b2 sempre sera el valor mes petit
-
-       int diferencia = b1.compareTo(b2);
-
-        if (bLongMajor==1){ //Per els nombres que els dos tenguin longitut 1.
-            for (int i = 0; i < bLongMajor; i++) {
-                int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
-                int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
-                int multiplicacio =c1*c2; //se multiplican simplement ja que no tendra residu.
-                res =res+ multiplicacio; // En aquest cas no feim us de el Array de int i el pasam directa a el String res.
-                return new BigNumber(res);
-            }
-
-        } else if (bLongMenor==1) { //si el numero menor es el unic que nomes te un digit pero el mes gran en te mes de un.
-            for (int i = 0; i < bLongMenor; i++) {
-                int c2 = Integer.parseInt(String.valueOf(b2.charAt(i))); //com nomes te longitut 1 no el invertim
-                for (int j = 0; j < bLongMajor; j++) {
-                    int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
-                    int multiplicacio = c1 * c2;
-                    int tempMult = multiplicacio % 10; //Cream una variable temporal que nomes existira dins el aquest for al igual que multiplicacio,
-                    // agafa la segona unitat, per despres sumar el residu a la multiplicació.(b1*b2) + residu
-                    resultat[bLongMajor - j] = tempMult + residuo; //Afegeix els nombres començant per la darrera posicio de el array, (dreta a esquerra)
-                    residuo = multiplicacio / 10; // agafa el residu de la multiplicacio.En el cas que en tengui
+                //Si la longitud de mult1 y mult2 es igual a 1
+                if (lenght_mult1 == 1 && lenght_mult2 == 1){
+                    res = res + mult;               //Hace una operacion normal
+                    return new BigNumber(res);      //Nos devuelve res
                 }
+                //Si la multiplicacion es major a 9 entonces significa que llevamos
+                if (mult > 9){
+                    res = (mult%10)+ res;           //Coge el resto de la operacion y le suma res
+                    llevo = mult / 10;//De esta manera conseguimos lo que llevamos
 
-            }
-        } else if (bLongMenor>1) { //si el nombre mes petit es de mes de dos digits.
-            for (int i = 0; i < bLongMenor; i++) {
-                int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i))); //com  te longitut mes de 1 el invertim
-                for (int j = 0; j < bLongMajor; j++) {
-                    int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
-                    int multiplicacio = c1 * c2;
-                    int tempMult = multiplicacio % 10;
-                   // sumes[i]= String.valueOf(tempMult + residuo);
-                    //resTemp[i][bLongMajor - j-i] = (tempMult + residuo)
-                    resTemp[i][bLongMajor -j -i] = (tempMult + residuo);
-
-                    residuo = multiplicacio / 10;
                 }
-
-            }
-
-
-            for (int j =resTemp[0].length-1; j >= 0; j--) {
-                //suma comensa amb el valor de el residu,suma se reinicia a cada volta de el primer bucle.
-                int sum = residuo;
-                for (int i = 0; i < resTemp.length; i++) {
-                    //sum = Integer.parseInt(sum + sumes[j]);
-                    sum += resTemp[i][j];
+                //Si la multiplicacion es menor a 9 entonces significa que no llevamos
+                else {
+                    res = mult + res;               //Y hace la multiplicacion mas el resto
+                    llevo = 0;                      //Y lllevamos 0
                 }
-                //guarda el residu per sumarli a la seguent fila
-                residuo = sum / 10;
-                //guarda el resultat de la suma de dreta a esquerra.
-                resultat[j] = sum % 10;
+                //Si hemos llegado al final de la multiplicacion y tenemos que llavar 1
+                if (j == 0 && llevo != 0 ){
+                    res = llevo + res;
+                    llevo=0;
+                }
             }
+            //Este for lo que hace es añadir 0 quanto mas avance la variable j
+            for (int j = 0; j < nceros; j++) {
+                res = res + '0';                     //Añade ceros a la izquierda
+            }
+            nceros++;
 
-
-            /*
-
-            Probar a pasar tots els valors de el Array final una posicio cap a la dreta
-
-
-             */
-
-
+            resFinal = new BigNumber(res).add(resFinal);
         }
-        for (int i = 0; i < resultat.length; i++) {
-            if (residuo>0) { //si hem acabat de multiplicar i tenim algun residu, se afegira el residu a la posicio 0 del resultat,
-                            // es a dir com a primer numero.
-                resultat[0] = residuo;
-            }
-            res=res+resultat[i]; //se colocaran els nombres per ordre comensant per el darrer fins el primer,
-            //tambe el pasam a String a la hora de sumar res a res mes el array de int
-        }
-        System.out.println("Numero major :"+numMesGran(b1,b2));
-
-        return new BigNumber(res);
+        return resFinal;
     }
     private String numMenor(String b1, String b2) {
         if (b1.length()<b2.length()) { // retorna qui es el numero amb la longitut mes petita
