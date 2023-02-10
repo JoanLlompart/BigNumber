@@ -19,7 +19,8 @@ class BigNumber {
 
     }
 
-    String valor;
+    String valor; //El BigNumber te rebra un atribut que utilitzarem emmagatzemar el nombres que es pasen.
+            //Ex: b1 i b2 son els objectes
 
     // Constructor 1
     public BigNumber(String s) {
@@ -170,8 +171,9 @@ class BigNumber {
         int residuo = 0;
         String numeroMajor= numMesGran(b1,b2);
         String numeroMenor= numMenor(b1,b2);
-        //int resultat[] = new int[bLongMajor+1];
-        int resultat[] = new int[bLongMajor+bLongMenor];
+        int resultat[] = new int[bLongMajor+1];
+        //int totalLlargaria =bLongMajor+bLongMenor;
+        //int resultat[] = new int[totalLlargaria];
         int[][] resTemp = new int[bLongMenor+1][resultat.length]; //primer cuadrat la cantitat de files, el segon els nombres de cada dimensio
         String[] sumes=new String[bLongMenor+1];
         String res = "";
@@ -221,15 +223,26 @@ class BigNumber {
             }
 
 
-            for (int j =resTemp[0].length - 1; j >= 0; j--) {
-                int sum = residuo; //suma comensa amb el valor de el residu,suma se reinicia a cada volta de el primer bucle.
+            for (int j =resTemp[0].length-1; j >= 0; j--) {
+                //suma comensa amb el valor de el residu,suma se reinicia a cada volta de el primer bucle.
+                int sum = residuo;
                 for (int i = 0; i < resTemp.length; i++) {
                     //sum = Integer.parseInt(sum + sumes[j]);
                     sum += resTemp[i][j];
                 }
-                residuo = sum / 10; //guarda el residu per sumarli a la seguent fila
-                resultat[j] = sum % 10; //guarda el resultat de la suma de dreta a esquerra.
+                //guarda el residu per sumarli a la seguent fila
+                residuo = sum / 10;
+                //guarda el resultat de la suma de dreta a esquerra.
+                resultat[j] = sum % 10;
             }
+
+
+            /*
+
+            Probar a pasar tots els valors de el Array final una posicio cap a la dreta
+
+
+             */
 
 
         }
@@ -242,6 +255,7 @@ class BigNumber {
             //tambe el pasam a String a la hora de sumar res a res mes el array de int
         }
         System.out.println("Numero major :"+numMesGran(b1,b2));
+
         return new BigNumber(res);
     }
     private String numMenor(String b1, String b2) {
@@ -253,16 +267,18 @@ class BigNumber {
     }
 
     private String numMesGran(String b1, String b2) {
-        if (b1.length()<b2.length()) { // retorna qui es el numero amb la longitut mes gran
+        if (b1.length()<b2.length()) {
+            // retorna qui es el numero amb la longitut mes gran
             return b2;
-        } else { //b1 es mes gran
+        } else {
+            //b1 es mes gran
             return b1;
         }
     }
 
     // Divideix
     BigNumber div(BigNumber other) {
-//hem de tornar nomes el  cocient(resultat) i truncar en cocient per baix es a dir numeros enters i eliminant els decimals.
+     //hem de tornar nomes el  cocient(resultat) i truncar en cocient per baix es a dir numeros enters i eliminant els decimals.
 
         String b1 = this.valor;
         String b2 = other.valor;
@@ -273,6 +289,7 @@ class BigNumber {
             int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
             for (int j = 0; j < dividendo.length(); j++) {
                 int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
+
             }
         }
        return null;
