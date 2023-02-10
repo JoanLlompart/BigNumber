@@ -110,54 +110,53 @@ class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
+        //Creamos dos strings de los valores que tenemos
         String b1 = this.valor;
         String b2 = other.valor;
-        //Antes error per no afegir ceros al numero que es gira.
+        //Luego creos un int que sea la longitud de cada 1
+        int lomg_s1 = b1.length();
+        int long_s2 = b2.length();
+        //Creamos la variable residuo que solamente puede ser 1 o 0
         int residuo = 0;
-        int mesGran = Math.max(b1.length(), b2.length());
-        int resultat[] = new int[mesGran+1];
-        String resultatFinal = "";
+        String res = "";
 
-        while (b1.length() != b2.length()) { //si la longitut no es igual afegim ceros al
-            String[] aux = igualarCero(b1,b2);
-            b1 =aux[0];
-            b2= aux[1];
-        }
-        //una vegada afegim els ceros per igualar invertim el numero.
-        String b1Invers=giraString(b1);
-        String b2Invers = giraString(b2);
+        //Creamos la variable a que lo que haga sea la resta de la longitud de b1 i la longitud de b2
+        //para luego poder añadir ceros.
+        int a = (Math.abs(b1.length()-b2.length()));
 
-        for (int i = 0; i < mesGran; i++) {
-            //Cream dues variables c1 i c2 que les pasarem a char i despres a int per poder comprobar numero per numero.
-            int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
-            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i)));
-
-            if (b1.length()==1 && b2.length()==1){
-                int resta = c1-c2;
-                residuo = resta /10;
-
-                resultat[i] = (resta %10) - residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-                resultatFinal = resultatFinal + resultat[i] ;
-                return new BigNumber(resultatFinal);
+        //Añadimos ceros a la iquierda
+        if (lomg_s1 > long_s2){ // Si a1 es mas largo que b2
+            for (int i = 0; i < a; i++) { // Hacemos un bucle que recorra a y le añadimos 0 a la izquierda a b2
+                b2 = "0"+b2;
             }
-            int resta = c1-c2-residuo;
-            residuo = resta /10;
-
-            if (residuo==1) {
-                resultat[mesGran-i] = resta %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-                resultat[mesGran-i-1] = residuo; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-            } else{
-                resultat[mesGran-i] = resta %10; // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-
+        } else { // Si b2 es mas largo que b1
+            for (int i = 0; i < a; i++) { // Hacemos un bucle que recorra a y le añadimos 0 a la izquierda a b1
+                b1 = "0"+b1;
             }
         }
-        for (int i = 0; i < resultat.length; i++) {
-            resultatFinal =resultatFinal+ resultat[i];
+
+        //Creamos una variable tamaño que es la longitud de b1 con ceros
+        int tamano = b1.length();
+
+        //Cremos un for que recorra la longitud de a1 que es igual a la longitud de b2
+        for (int i = tamano -1; i >= 0 ; i--) {
+            //Pasa de String a Int
+            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
+            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i))) + residuo;
+            int resto;
+
+            //Si c2 es major a c1 significa
+            if (c2 > c1){
+                resto = (c1 + 10) - c2;
+                residuo =1;
+            } else { // Si c1 es mayor que c2 entonces solo hacemos un resta normal
+                resto = c1 - c2;
+                residuo = 0;
+            }
+            res = resto+ res;
         }
 
-        System.out.println(resultatFinal+"Print de array" );
-
-        return new BigNumber(resultatFinal);
+        return new BigNumber(res);
     }
 
     // Multiplica
@@ -171,9 +170,10 @@ class BigNumber {
         int residuo = 0;
         String numeroMajor= numMesGran(b1,b2);
         String numeroMenor= numMenor(b1,b2);
-        int resultat[] = new int[bLongMajor+1];
-        //int resultat[] = new int[bLongMajor+bLongMenor];
+        //int resultat[] = new int[bLongMajor+1];
+        int resultat[] = new int[bLongMajor+bLongMenor];
         int[][] resTemp = new int[bLongMenor+1][resultat.length]; //primer cuadrat la cantitat de files, el segon els nombres de cada dimensio
+        String[] sumes=new String[bLongMenor+1];
         String res = "";
 
 
@@ -211,14 +211,20 @@ class BigNumber {
                     int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(j)));
                     int multiplicacio = c1 * c2;
                     int tempMult = multiplicacio % 10;
-                    resTemp[i][bLongMajor - j-i] = (tempMult + residuo);
+                   // sumes[i]= String.valueOf(tempMult + residuo);
+                    //resTemp[i][bLongMajor - j-i] = (tempMult + residuo)
+                    resTemp[i][bLongMajor -j -i] = (tempMult + residuo);
+
                     residuo = multiplicacio / 10;
                 }
 
             }
-            for (int j = resTemp[0].length - 1; j >= 0; j--) {
+
+
+            for (int j =resTemp[0].length - 1; j >= 0; j--) {
                 int sum = residuo; //suma comensa amb el valor de el residu,suma se reinicia a cada volta de el primer bucle.
                 for (int i = 0; i < resTemp.length; i++) {
+                    //sum = Integer.parseInt(sum + sumes[j]);
                     sum += resTemp[i][j];
                 }
                 residuo = sum / 10; //guarda el residu per sumarli a la seguent fila
@@ -227,22 +233,17 @@ class BigNumber {
 
 
         }
-
-
         for (int i = 0; i < resultat.length; i++) {
             if (residuo>0) { //si hem acabat de multiplicar i tenim algun residu, se afegira el residu a la posicio 0 del resultat,
                             // es a dir com a primer numero.
                 resultat[0] = residuo;
-
             }
             res=res+resultat[i]; //se colocaran els nombres per ordre comensant per el darrer fins el primer,
             //tambe el pasam a String a la hora de sumar res a res mes el array de int
-
         }
         System.out.println("Numero major :"+numMesGran(b1,b2));
         return new BigNumber(res);
     }
-
     private String numMenor(String b1, String b2) {
         if (b1.length()<b2.length()) { // retorna qui es el numero amb la longitut mes petita
             return b1;
@@ -272,7 +273,6 @@ class BigNumber {
             int c2 = Integer.parseInt(String.valueOf(b2.charAt(i)));
             for (int j = 0; j < dividendo.length(); j++) {
                 int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
-
             }
         }
        return null;
