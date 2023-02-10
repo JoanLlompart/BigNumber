@@ -275,12 +275,28 @@ class BigNumber {
 
     // Potència
     BigNumber power(int n) {
-        return null;
+        BigNumber potencia = new BigNumber(this.valor);
+        //Multiplicamos por el mismo número hasta que n sea menor que 1
+        for (int i = 1;i < n; i++) {
+            potencia = potencia.mult(this);
+        }
+            return potencia;
     }
 
     // Factorial
     BigNumber factorial() {
-        return null;
+
+        BigNumber res=new BigNumber(this.valor);
+        BigNumber resta=new BigNumber("1");
+
+        BigNumber num  =new BigNumber(String.valueOf(this.sub(resta)));
+        while(!num.valor.equals("1")) {
+            res= res.mult(num);
+            num = num.sub(resta);
+
+        }
+
+        return res;
     }
 
     // MCD. Torna el Màxim comú divisor
