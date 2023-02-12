@@ -1,7 +1,3 @@
-import java.util.Arrays;
-import java.util.IllegalFormatCodePointException;
-import java.util.Objects;
-
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
@@ -54,7 +50,7 @@ class BigNumber {
 
         //Si la longitut no es igual afegim ceros al de menor longitud
         while (b1.length() != b2.length()) {
-            String[] aux = igualarCero(b1, b2);
+            String[] aux = igualarZero(b1, b2);
             b1 = aux[0];
             b2 = aux[1];
         }
@@ -99,7 +95,9 @@ class BigNumber {
         return new BigNumber(resultatFinal);
     }
 
-    private String[] igualarCero(String b1, String b2) {
+    //funcio que iguala els zeros de b1 i b2 per poder realitzar operacions
+    // correctament caracter a caracter
+    private String[] igualarZero(String b1, String b2) {
         if (b1.length() > b2.length()) {
             b2 = 0 + b2;
         } else {
@@ -114,7 +112,6 @@ class BigNumber {
     // Funcio que cambia inverteix la posicio de caracters de tot un String.
     // ex: "CAR" --> giraString("CAR") Cse converteix en "RAC"
     private String giraString(String s) {
-
         String girat = "";
         for (int i = s.length() - 1; i >= 0; i--) {
             girat += s.charAt(i);
@@ -150,8 +147,8 @@ class BigNumber {
             } else {
                 residu = 0;
             }
-            int r = c1 - c2;
-            res = res + r;
+            int resTmp = c1 - c2;
+            res = res + resTmp;
         }
         res = giraString(res);
 
