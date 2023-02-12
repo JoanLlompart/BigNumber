@@ -207,15 +207,13 @@ class BigNumber {
 
     // Multiplica
     BigNumber mult(BigNumber other) {
+        //Creamos dos strings de los valores que tenemos
         String b1 = this.valor;
         String b2 = other.valor;
-        int
-
-
         //Logitud de el numero mes gran
-        int b1Long = b1.length();
-        //logitud de el numero mes menor.
-        int b2Long = b2.length();
+        int b1Long=b1.length();
+
+        int b2Long=b2.length();
         //Creamos la variable llevo que solamente puede ser 1 o 0
         int residuo = 0;
         //Creamos esta variable donde guiardaremos el resultado
@@ -224,7 +222,6 @@ class BigNumber {
 
 
         //Tenemos esta variable que nos añade ceros a medida que augmenta los numeros
-        //variable int per afegir zeros a la dreta per les sumes
         int numZero = 0;
 
         //Cremos un for que recorra la longitud de mult2 de derecha a izquierda
@@ -234,8 +231,8 @@ class BigNumber {
             //Cremos un for que recorra la longitud de b1 de derecha a izquierda
 
             //Segon bucle for que recorr
-            for (int j = b1Long - 1; j >= 0; j--) {
-                //Pasa de String a Int
+            for (int j = b1.length() - 1; j >= 0; j--) {
+                //Pasa de String a Int las variable creadas anteriormente
                 int c1 = Integer.parseInt(String.valueOf(b1.charAt(j)));
                 int c2 = Integer.parseInt(String.valueOf(c));
                 //Creamos la variable mult donde realizaremos la operacion
@@ -244,7 +241,7 @@ class BigNumber {
 
 
                 //Si la longitud de b1 y mult2 es igual a 1
-                if (b1.length() == 1 && b2Long == 1) {
+                if (b1Long == 1 && b2Long == 1) {
                     res = res + mult;               //Hace una operacion normal
                     return new BigNumber(res);      //Nos devuelve res
                 }
@@ -259,8 +256,7 @@ class BigNumber {
                     res = mult + res;               //Y hace la multiplicacion mas el resto
                     residuo = 0;                      //Y lllevamos 0
                 }
-                // Una vegada acabada la multiplicacio si residuo es major a zero entra a el if i afegeix el residuo
-                // a la posicio mes a la dreta.
+                //Si hemos llegado al final de la multiplicacion y tenemos que llavar 1
                 if (j == 0 && residuo != 0) {
                     res = residuo + res;
                     residuo = 0;
@@ -268,8 +264,7 @@ class BigNumber {
             }
             //Este for lo que hace es añadir 0 quanto mas avance la variable j
             for (int j = 0; j < numZero; j++) {
-                //Añade ceros a la izquierda
-                res = res + '0';
+                res = res + '0';                     //Añade ceros a la izquierda
             }
             numZero++;
 
