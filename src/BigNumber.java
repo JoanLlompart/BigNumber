@@ -18,6 +18,10 @@ class BigNumber {
 
     // Constructor 1
     public BigNumber(String s) {
+
+        //Elimina els Zeros a la esquerra perque no afecti a la hora de trobar el valor real,
+        // compararlo, o operar amb ell ja que se opera caracter per caracter i amb un 0
+        // a la dreta afectaria negativament a totes les operacions de aquest programa BigNumber.
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
             if (c != '0') {
@@ -121,19 +125,25 @@ class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
+        //Pasam this.valor a tipus String i asignam el nom com a b1
         String b1 = this.valor;
+        //Pasam Other.valor a tipus String i asignam el nom com a b2
         String b2 = other.valor;
+        //Treu la longitud de el String amb mes longitud
         int mesGran = Math.max(b1.length(), b2.length());
         int residu = 0;
 
-
+        // Bucle "while" que iguala la longitut de els nombres afegit zeros
         while (b1.length() != b2.length()) {
             if (b1.length() < b2.length()) b1 = '0' + b1;
             else b2 = '0' + b2;
         }
 
+        // Cream les variables "bInvers" que criden a "giraString(b)"
+        // que inverteix tot el String per calcular directament desde la dreta.
         String b1Invers = giraString(b1);
         String b2Invers = giraString(b2);
+
 
         String res = "";
 
@@ -141,15 +151,20 @@ class BigNumber {
             int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
             int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i))) + residu;
 
+            //Afegeix dígits a res amb un bucle que recorre els Strings b1 i b2 a partir de la dreta
+            // i resta c2 a c1. Si c1 és més petit que c2, suma 10 a c1 i ajusta el residu a 1,
             if (c1 < c2) {
                 c1 += 10;
                 residu = 1;
             } else {
+                // en cas contrari, ajusta el residu a 0.
                 residu = 0;
             }
+            // El resultat de la resta es guarda en resTmp i es converteix en un caràcter per afegir a res.
             int resTmp = c1 - c2;
             res = res + resTmp;
         }
+        //inverteix res per obtenir el resultat de manera correcte i no inversa
         res = giraString(res);
 
         return new BigNumber(res);
@@ -157,16 +172,18 @@ class BigNumber {
 
     // Multiplica
     BigNumber mult(BigNumber other) {
+
         //Creamos dos strings de los valores que tenemos
         String b1 = this.valor;
         String b2 = other.valor;
-        //Logitud de el numero mes gran
-        int b1Long=b1.length();
 
-        int b2Long=b2.length();
-        //Creamos la variable llevo que solamente puede ser 1 o 0
+        //Logitud de el b1 i b2
+        int b1Long = b1.length();
+        int b2Long = b2.length();
+
+        //Variable residu que guarda el que duim per sumar a el proxim caracter
         int residu = 0;
-        //Creamos esta variable donde guiardaremos el resultado
+        //String que guarda els resultat de les operacions
         String res = "";
         BigNumber resultatFinal = new BigNumber("0");
 
@@ -194,7 +211,7 @@ class BigNumber {
 
                 //Si la longitud de b1 y b2 es igual a 1
                 if (b1Long == 1 && b2Long == 1) {
-                //Se multiplican simplement ja que no tendra residu.
+                    //Se multiplican simplement ja que no tendra residu.
                     res = res + multiplicacio;
                     return new BigNumber(res);
                 }
@@ -203,7 +220,8 @@ class BigNumber {
                 if (multiplicacio > 9) {
                     //agafa la unitat i el suma a res
                     res = (multiplicacio % 10) + res;
-                    residu = multiplicacio / 10;//De esta manera conseguimos lo que llevamos
+                    //Guarda la part de la decena que es el residu.
+                    residu = multiplicacio / 10;
                 }
                 //Si la multiplicacio dona nomes un resultat de una unitat no hi ha residu
                 else {
@@ -219,10 +237,13 @@ class BigNumber {
                     residu = 0;
                 }
             }
-            //Este for lo que hace es añadir 0 quanto mas avance la variable j
+            //Afegeix Zeros a la dreta per igualar la longitut a la hora de
+            // sumar els valors que han quedat de multiplicar.
             for (int j = 0; j < numZero; j++) {
-                res = res + '0';                     //Añade ceros a la izquierda
+                res = res + '0';
             }
+            //Incrementam amb 1 els zeros que se han de afegir
+            //per cada iteracio de el bucle.
             numZero++;
 
             resultatFinal = new BigNumber(res).add(resultatFinal);
