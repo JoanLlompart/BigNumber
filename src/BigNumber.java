@@ -1,9 +1,9 @@
 class BigNumber {
     public static void main(String[] args) {
         //Se ha de entregar sense un main.
-        BigNumber b1 = new BigNumber("99999999999999999999999");
-        BigNumber b2 = new BigNumber("9999999999999999999999");
-        BigNumber resultat = b1.mult(b2);
+        BigNumber b1 = new BigNumber("5");
+        BigNumber b2 = new BigNumber("2");
+        BigNumber resultat = b1.power(3);
 
         // System.out.println(b1.equals(b2) +" equals");
 
@@ -170,9 +170,7 @@ class BigNumber {
         String res = "";
         BigNumber resultatFinal = new BigNumber("0");
 
-
-        int diferencia = b1.compareTo(b2);
-        //Tenemos esta variable que nos añade ceros a medida que augmenta los numeros
+        //variable int per afegir zeros a la dreta per les sumes
         int numZero = 0;
 
         //Cream un for que recorr la longitud de b2 de sreta a esquerra per començar per la dreta.
@@ -306,10 +304,15 @@ class BigNumber {
     // Potència
     BigNumber power(int n) {
         BigNumber potencia = new BigNumber(this.valor);
-        //Multiplicam el mateix n
+        //Multiplicam el nombre de "potencia" per el numero de vegades "n"
+        // ex: 5*5*5*5*5=3125
+
+        //la variable i li asignam el valor 1,
         for (int i = 1; i < n; i++) {
+            //potencia es multiplica
             potencia = potencia.mult(this);
         }
+        System.out.println(potencia);
         return potencia;
     }
 
@@ -321,10 +324,13 @@ class BigNumber {
 
         //feim una resta de 1  a num.
         BigNumber num = new BigNumber(String.valueOf(this.sub(resta)));
+        //Per el factorial nomes volem els nombres enters
         while (!num.valor.equals("1")) {
+            //res se multiplica per num amb la funcio creada anteriorment,
+            // en cas de no utilitzar la funcio creada mult nofuncionaria be amb nombres grans.
             res = res.mult(num);
+            //li restam 1 a num.
             num = num.sub(resta);
-
         }
 
         return res;
