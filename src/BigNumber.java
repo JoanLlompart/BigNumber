@@ -45,7 +45,7 @@ class BigNumber {
         //Pasam Other.valor a tipus String i asignam el nom com a b2
         String b2 = other.valor;
         //Antes error per no afegir ceros al numero que es gira.
-        int residuo = 0;
+        int residu = 0;
         int mesGran = Math.max(b1.length(), b2.length());
         //La variable resultat sera un array de int amb la longitut de el
         // nombre mes llarg i +1 per si te residu el darrer nombre de la suma.
@@ -77,20 +77,22 @@ class BigNumber {
                 resultatFinal = resultatFinal + resultat[i];
                 return new BigNumber(resultatFinal);
             }
-            int suma = c1 + c2 + residuo;
-            residuo = suma / 10;
+            int suma = c1 + c2 + residu;
+            residu = suma / 10;
 
-            if (residuo == 1) {
+            if (residu == 1) {
                 // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
                 resultat[mesGran - i] = suma % 10;
-                // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
-                resultat[mesGran - i - 1] = residuo;
+                // Afegim el residu.
+                resultat[mesGran - i - 1] = residu;
             } else {
                 // Sumam el valor de suma a el resultat que es la suma final, suma nomes es de un digit.
                 resultat[mesGran - i] = suma % 10;
 
             }
         }
+
+        //for que converteix el array resultat en un String de resultatFinal
         for (int i = 0; i < resultat.length; i++) {
             resultatFinal = resultatFinal + resultat[i];
         }
@@ -122,59 +124,10 @@ class BigNumber {
 
     // Resta
     BigNumber sub(BigNumber other) {
-
-        /*
-        //Creamos dos strings de los valores que tenemos
-        String b1 = this.valor;
-        String b2 = other.valor;
-        //Luego creos un int que sea la longitud de cada 1
-        int lomg_s1 = b1.length();
-        int long_s2 = b2.length();
-        //Creamos la variable residuo que solamente puede ser 1 o 0
-        int residuo = 0;
-        String res = "";
-
-        //Creamos la variable a que lo que haga sea la resta de la longitud de b1 i la longitud de b2
-        //para luego poder añadir ceros.
-        int a = (Math.abs(b1.length() - b2.length()));
-
-        //Añadimos ceros a la iquierda
-        if (lomg_s1 > long_s2) { // Si a1 es mas largo que b2
-            for (int i = 0; i < a; i++) { // Hacemos un bucle que recorra a y le añadimos 0 a la izquierda a b2
-                b2 = "0" + b2;
-            }
-        } else { // Si b2 es mas largo que b1
-            for (int i = 0; i < a; i++) { // Hacemos un bucle que recorra a y le añadimos 0 a la izquierda a b1
-                b1 = "0" + b1;
-            }
-        }
-
-        //Creamos una variable tamaño que es la longitud de b1 con ceros
-        int tamano = b1.length();
-
-        //Cremos un for que recorra la longitud de a1 que es igual a la longitud de b2
-        for (int i = tamano - 1; i >= 0; i--) {
-            //Pasa de String a Int
-            int c1 = Integer.parseInt(String.valueOf(b1.charAt(i)));
-            int c2 = Integer.parseInt(String.valueOf(b2.charAt(i))) + residuo;
-            int resto;
-
-            //Si c2 es major a c1 significa
-            if (c2 > c1) {
-                resto = (c1 + 10) - c2;
-                residuo = 1;
-            } else { // Si c1 es mayor que c2 entonces solo hacemos un resta normal
-                resto = c1 - c2;
-                residuo = 0;
-            }
-            res = resto + res;
-        }
-
-         */
         String b1 = this.valor;
         String b2 = other.valor;
         int mesGran = Math.max(b1.length(), b2.length());
-        int residuo = 0;
+        int residu = 0;
 
 
         while (b1.length() != b2.length()) {
@@ -189,13 +142,13 @@ class BigNumber {
 
         for (int i = 0; i < mesGran; i++) {
             int c1 = Integer.parseInt(String.valueOf(b1Invers.charAt(i)));
-            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i))) + residuo;
+            int c2 = Integer.parseInt(String.valueOf(b2Invers.charAt(i))) + residu;
 
             if (c1 < c2) {
                 c1 += 10;
-                residuo = 1;
+                residu = 1;
             } else {
-                residuo = 0;
+                residu = 0;
             }
             int r = c1 - c2;
             res = res + r;
@@ -215,51 +168,60 @@ class BigNumber {
 
         int b2Long=b2.length();
         //Creamos la variable llevo que solamente puede ser 1 o 0
-        int residuo = 0;
+        int residu = 0;
         //Creamos esta variable donde guiardaremos el resultado
         String res = "";
         BigNumber resultatFinal = new BigNumber("0");
 
 
+        int diferencia = b1.compareTo(b2);
         //Tenemos esta variable que nos añade ceros a medida que augmenta los numeros
         int numZero = 0;
 
-        //Cremos un for que recorra la longitud de mult2 de derecha a izquierda
+        //Cream un for que recorr la longitud de b2 de sreta a esquerra per començar per la dreta.
         for (int i = b2Long - 1; i >= 0; i--) {
             char c = b2.charAt(i);
             res = "";
-            //Cremos un for que recorra la longitud de b1 de derecha a izquierda
 
-            //Segon bucle for que recorr
-            for (int j = b1.length() - 1; j >= 0; j--) {
-                //Pasa de String a Int las variable creadas anteriormente
+            //Segon for que recorr la longitud de b1 de dreta a esquerra
+            for (int j = b1Long - 1; j >= 0; j--) {
+
+                ////Cream dues variables c1 i c2 que les pasarem a char i
+                // despres a int per poder comprobar numero per numero.
                 int c1 = Integer.parseInt(String.valueOf(b1.charAt(j)));
                 int c2 = Integer.parseInt(String.valueOf(c));
-                //Creamos la variable mult donde realizaremos la operacion
-                int mult = c1 * c2;
-                mult += residuo;
+
+                //Creem la variable multiplicacio que multiplica de manera simplificada
+                // valor per valor amb les variables anteriors.
+                int multiplicacio = c1 * c2;
+                multiplicacio += residu;
 
 
-                //Si la longitud de b1 y mult2 es igual a 1
+                //Si la longitud de b1 y b2 es igual a 1
                 if (b1Long == 1 && b2Long == 1) {
-                    res = res + mult;               //Hace una operacion normal
-                    return new BigNumber(res);      //Nos devuelve res
+                //Se multiplican simplement ja que no tendra residu.
+                    res = res + multiplicacio;
+                    return new BigNumber(res);
                 }
-                //Si la multiplicacion es major a 9 entonces significa que llevamos
-                if (mult > 9) {
-                    res = (mult % 10) + res;           //Coge el resto de la operacion y le suma res
-                    residuo = mult / 10;//De esta manera conseguimos lo que llevamos
-
+                //Multiplicacio dona mes de 9 tendrem un residu que se ha de guardar per sumar
+                // a la proxima operacio
+                if (multiplicacio > 9) {
+                    //agafa la unitat i el suma a res
+                    res = (multiplicacio % 10) + res;
+                    residu = multiplicacio / 10;//De esta manera conseguimos lo que llevamos
                 }
-                //Si la multiplicacion es menor a 9 entonces significa que no llevamos
+                //Si la multiplicacio dona nomes un resultat de una unitat no hi ha residu
                 else {
-                    res = mult + res;               //Y hace la multiplicacion mas el resto
-                    residuo = 0;                      //Y lllevamos 0
+                    //Afegeix la unitat de la multiplicacio al resultat a la esquerra.
+                    res = multiplicacio + res;
+                    //Reiniciam el reciduo a 0.
+                    residu = 0;
                 }
-                //Si hemos llegado al final de la multiplicacion y tenemos que llavar 1
-                if (j == 0 && residuo != 0) {
-                    res = residuo + res;
-                    residuo = 0;
+                //Si residu no es igual que 0 i ja se han realitzat totes les multiplicacions
+                if (j == 0 && residu != 0) {
+                    //Afegim el residu a la primera posicio de el resultat
+                    res = residu + res;
+                    residu = 0;
                 }
             }
             //Este for lo que hace es añadir 0 quanto mas avance la variable j
